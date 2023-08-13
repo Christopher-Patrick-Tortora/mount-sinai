@@ -9,8 +9,13 @@ const createMap =  async () => {
     })
     tiles.addTo(map);
 
-
     L.geoJson(statesData, {style: style}).addTo(map); 
+
+    interaction(map);
+    
+    
+
+
 }
 
 const getColor = (aqi) => {
@@ -33,20 +38,47 @@ const style = (feature) => {
     };
 }
 
-function highlightFeature(e) {
-    var layer = e.target;
+const interaction = (map) => {
+    var geojson;
 
-    layer.setStyle({
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
-    });
-
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
+    function highlightFeature(e) {
+        var layer = e.target;
+    
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+    
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
     }
+    
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+    }
+    
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+    
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    geojson = L.geoJson(statesData, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
 }
+
+
 
 
 export { createMap }
