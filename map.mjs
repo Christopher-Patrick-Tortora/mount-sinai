@@ -113,13 +113,11 @@ const legend = (map) => {
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [1, 2, 3, 4, 5],
-        labels = [];
+        grades = [1, 2, 3, 4, 5]
 
-    // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            '<i style="background:' + getColor(grades[i]) + '"></i> ' +
             grades[i] + '<br>';
     }
 
