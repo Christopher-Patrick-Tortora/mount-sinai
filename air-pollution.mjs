@@ -6,7 +6,7 @@ const fetchAP = async (lat, long) => {
     const aqi = data.list
     return aqi
 
-  }
+}
 
 const returnAQI = async (lat, long) => {
     const aqi = await fetchAP(lat, long);
