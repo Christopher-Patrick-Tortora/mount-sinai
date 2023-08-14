@@ -13,6 +13,7 @@ const createMap = async () => {
 
     interaction(map);
 
+    legend(map);
 
 }
 
@@ -104,6 +105,28 @@ const interaction = (map) => {
     }).addTo(map);
 
     info.addTo(map);
+}
+
+const legend = (map) => {
+    var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [1, 2, 3, 4, 5],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + '<br>';
+    }
+
+    return div;
+};
+
+legend.addTo(map);
 }
 
 
